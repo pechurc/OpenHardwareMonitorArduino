@@ -23,6 +23,7 @@ using Aga.Controls.Tree.NodeControls;
 using OpenHardwareMonitor.Hardware;
 using OpenHardwareMonitor.WMI;
 using OpenHardwareMonitor.Utilities;
+using System.IO.Ports;
 
 namespace OpenHardwareMonitor.GUI {
   public partial class MainForm : Form {
@@ -65,6 +66,8 @@ namespace OpenHardwareMonitor.GUI {
 
     private UserOption runWebServer;
     private HttpServer server;
+
+    private ArduinoReporter arduinoReporter;
 
     private UserOption logSensors;
     private UserRadioGroup loggingInterval;
@@ -293,6 +296,8 @@ namespace OpenHardwareMonitor.GUI {
           server.StopHTTPListener();
       };
 
+      arduinoReporter = new ArduinoReporter(this.settings.GetValue("portName", "COM1"), this.settings.GetValue("baudRate", 9600));
+      
       logSensors = new UserOption("logSensorsMenuItem", false, logSensorsMenuItem,
         settings);
 
@@ -930,5 +935,11 @@ namespace OpenHardwareMonitor.GUI {
       get { return server; }
     }
 
+    public ArduinoReporter ArduinoReporter {
+      get { return arduinoReporter; }
+    }
+    private void arduinoConfigurationMenuItem_Click(object sender, EventArgs e) {
+      new ArduinoConfiguration(this).ShowDialog();
+    }
   }
 }
