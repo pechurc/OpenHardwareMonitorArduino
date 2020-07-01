@@ -68,6 +68,7 @@ namespace OpenHardwareMonitor.GUI {
     private HttpServer server;
 
     private ArduinoReporter arduinoReporter;
+    private UserOption arduinoReportSensors;
 
     private UserOption logSensors;
     private UserRadioGroup loggingInterval;
@@ -163,6 +164,8 @@ namespace OpenHardwareMonitor.GUI {
       }
 
       logger = new Logger(computer);
+
+      arduinoReporter = new ArduinoReporter(computer);
 
       plotColorPalette = new Color[13];
       plotColorPalette[0] = Color.Blue;
@@ -296,8 +299,9 @@ namespace OpenHardwareMonitor.GUI {
           server.StopHTTPListener();
       };
 
-      arduinoReporter = new ArduinoReporter(this.settings.GetValue("portName", "COM1"), this.settings.GetValue("baudRate", 9600));
-      
+      arduinoReportSensors = new UserOption("arduinoReportSensorsMenuItem", false, arduinoReportSensorsMenuItem,
+        settings);
+      arduinoReportSensors.Changed += ArduinoReportSensors_Changed;
       logSensors = new UserOption("logSensorsMenuItem", false, logSensorsMenuItem,
         settings);
 
@@ -309,19 +313,45 @@ namespace OpenHardwareMonitor.GUI {
         settings);
       loggingInterval.Changed += (sender, e) => {
         switch (loggingInterval.Value) {
-          case 0: logger.LoggingInterval = new TimeSpan(0, 0, 1); break;
-          case 1: logger.LoggingInterval = new TimeSpan(0, 0, 2); break;
-          case 2: logger.LoggingInterval = new TimeSpan(0, 0, 5); break;
-          case 3: logger.LoggingInterval = new TimeSpan(0, 0, 10); break;
-          case 4: logger.LoggingInterval = new TimeSpan(0, 0, 30); break;
-          case 5: logger.LoggingInterval = new TimeSpan(0, 1, 0); break;
-          case 6: logger.LoggingInterval = new TimeSpan(0, 2, 0); break;
-          case 7: logger.LoggingInterval = new TimeSpan(0, 5, 0); break;
-          case 8: logger.LoggingInterval = new TimeSpan(0, 10, 0); break;
-          case 9: logger.LoggingInterval = new TimeSpan(0, 30, 0); break;
-          case 10: logger.LoggingInterval = new TimeSpan(1, 0, 0); break;
-          case 11: logger.LoggingInterval = new TimeSpan(2, 0, 0); break;
-          case 12: logger.LoggingInterval = new TimeSpan(6, 0, 0); break;
+          case 0: logger.LoggingInterval = new TimeSpan(0, 0, 1);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 0, 1);
+                  break;
+          case 1: logger.LoggingInterval = new TimeSpan(0, 0, 2);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 0, 2);
+                  break;
+          case 2: logger.LoggingInterval = new TimeSpan(0, 0, 5);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 0, 5);
+                  break;
+          case 3: logger.LoggingInterval = new TimeSpan(0, 0, 10);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 0, 10);
+                  break;
+          case 4: logger.LoggingInterval = new TimeSpan(0, 0, 30);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 0, 30);
+                  break;
+          case 5: logger.LoggingInterval = new TimeSpan(0, 1, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 1, 0);
+                  break;
+          case 6: logger.LoggingInterval = new TimeSpan(0, 2, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 2, 0);
+                  break;
+          case 7: logger.LoggingInterval = new TimeSpan(0, 5, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 5, 0);
+                  break;
+          case 8: logger.LoggingInterval = new TimeSpan(0, 10, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 10, 0);
+                  break;
+          case 9: logger.LoggingInterval = new TimeSpan(0, 30, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(0, 30, 0);
+                  break;
+          case 10: logger.LoggingInterval = new TimeSpan(1, 0, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(1, 0, 0);
+                  break;
+          case 11: logger.LoggingInterval = new TimeSpan(2, 0, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(2, 0, 0);
+                  break;
+          case 12: logger.LoggingInterval = new TimeSpan(6, 0, 0);
+                  arduinoReporter.LoggingInterval = new TimeSpan(6, 0, 0);
+                  break;
         }
       };
 
@@ -348,6 +378,12 @@ namespace OpenHardwareMonitor.GUI {
         if (runWebServer.Value) 
           server.Quit();
       };
+    }
+
+    private void ArduinoReportSensors_Changed(object sender, EventArgs e) {
+      if (arduinoReportSensors.Value) {
+        arduinoReporter.Open();
+      }
     }
 
     private void PowerModeChanged(object sender,
@@ -592,6 +628,9 @@ namespace OpenHardwareMonitor.GUI {
 
       if (logSensors != null && logSensors.Value && delayCount >= 4)
         logger.Log();
+
+      if (arduinoReportSensors != null && arduinoReportSensors.Value && delayCount >= 4)
+        arduinoReporter.Log();
 
       if (delayCount < 4)
         delayCount++;

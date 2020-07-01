@@ -105,6 +105,8 @@ namespace OpenHardwareMonitor.GUI {
             this.runWebServerMenuItem = new System.Windows.Forms.MenuItem();
             this.serverPortMenuItem = new System.Windows.Forms.MenuItem();
             this.arduinoServerMenuItem = new System.Windows.Forms.MenuItem();
+            this.arduinoReportSensorsMenuItem = new System.Windows.Forms.MenuItem();
+            this.arduinoConfigurationMenuItem = new System.Windows.Forms.MenuItem();
             this.helpMenuItem = new System.Windows.Forms.MenuItem();
             this.aboutMenuItem = new System.Windows.Forms.MenuItem();
             this.treeContextMenu = new System.Windows.Forms.ContextMenu();
@@ -112,8 +114,6 @@ namespace OpenHardwareMonitor.GUI {
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.splitContainer = new OpenHardwareMonitor.GUI.SplitContainerAdv();
             this.treeView = new Aga.Controls.Tree.TreeViewAdv();
-            this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.arduinoConfigurationMenuItem = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -587,9 +587,20 @@ namespace OpenHardwareMonitor.GUI {
             // 
             this.arduinoServerMenuItem.Index = 12;
             this.arduinoServerMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem4,
+            this.arduinoReportSensorsMenuItem,
             this.arduinoConfigurationMenuItem});
-            this.arduinoServerMenuItem.Text = "Arduino Server";
+            this.arduinoServerMenuItem.Text = "Arduino Report";
+            // 
+            // arduinoReportSensorsMenuItem
+            // 
+            this.arduinoReportSensorsMenuItem.Index = 0;
+            this.arduinoReportSensorsMenuItem.Text = "Run";
+            // 
+            // arduinoConfigurationMenuItem
+            // 
+            this.arduinoConfigurationMenuItem.Index = 1;
+            this.arduinoConfigurationMenuItem.Text = "Configuration";
+            this.arduinoConfigurationMenuItem.Click += new System.EventHandler(this.arduinoConfigurationMenuItem_Click);
             // 
             // helpMenuItem
             // 
@@ -622,7 +633,8 @@ namespace OpenHardwareMonitor.GUI {
             this.splitContainer.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
             this.splitContainer.Color = System.Drawing.SystemColors.Control;
             this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-            this.splitContainer.Location = new System.Drawing.Point(12, 12);
+            this.splitContainer.Location = new System.Drawing.Point(16, 15);
+            this.splitContainer.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer.Name = "splitContainer";
             this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -633,9 +645,9 @@ namespace OpenHardwareMonitor.GUI {
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.splitContainer.Size = new System.Drawing.Size(386, 483);
-            this.splitContainer.SplitterDistance = 354;
-            this.splitContainer.SplitterWidth = 5;
+            this.splitContainer.Size = new System.Drawing.Size(515, 594);
+            this.splitContainer.SplitterDistance = 435;
+            this.splitContainer.SplitterWidth = 6;
             this.splitContainer.TabIndex = 3;
             // 
             // treeView
@@ -653,6 +665,7 @@ namespace OpenHardwareMonitor.GUI {
             this.treeView.GridLineStyle = Aga.Controls.Tree.GridLineStyle.Horizontal;
             this.treeView.LineColor = System.Drawing.SystemColors.ControlDark;
             this.treeView.Location = new System.Drawing.Point(0, 0);
+            this.treeView.Margin = new System.Windows.Forms.Padding(4);
             this.treeView.Model = null;
             this.treeView.Name = "treeView";
             this.treeView.NodeControls.Add(this.nodeImage);
@@ -662,7 +675,7 @@ namespace OpenHardwareMonitor.GUI {
             this.treeView.NodeControls.Add(this.nodeTextBoxMin);
             this.treeView.NodeControls.Add(this.nodeTextBoxMax);
             this.treeView.SelectedNode = null;
-            this.treeView.Size = new System.Drawing.Size(386, 354);
+            this.treeView.Size = new System.Drawing.Size(515, 435);
             this.treeView.TabIndex = 0;
             this.treeView.Text = "treeView";
             this.treeView.UseColumns = true;
@@ -672,24 +685,14 @@ namespace OpenHardwareMonitor.GUI {
             this.treeView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseMove);
             this.treeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseUp);
             // 
-            // menuItem4
+            // MainForm
             // 
-            this.menuItem4.Index = 0;
-            this.menuItem4.Text = "Run";
-            // 
-            // arduinoConfigurationMenuItem
-            // 
-            this.arduinoConfigurationMenuItem.Index = 1;
-            this.arduinoConfigurationMenuItem.Text = "Configuration";
-            this.arduinoConfigurationMenuItem.Click += new System.EventHandler(this.arduinoConfigurationMenuItem_Click);
-      // 
-      // MainForm
-      // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(418, 554);
+            this.ClientSize = new System.Drawing.Size(557, 682);
             this.Controls.Add(this.splitContainer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Menu = this.mainMenu;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -784,7 +787,7 @@ namespace OpenHardwareMonitor.GUI {
     private System.Windows.Forms.MenuItem log2hMenuItem;
     private System.Windows.Forms.MenuItem log6hMenuItem;
     private System.Windows.Forms.MenuItem arduinoServerMenuItem;
-    private System.Windows.Forms.MenuItem menuItem4;
+    private System.Windows.Forms.MenuItem arduinoReportSensorsMenuItem;
     private System.Windows.Forms.MenuItem arduinoConfigurationMenuItem;
   }
 }
