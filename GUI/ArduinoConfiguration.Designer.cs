@@ -32,47 +32,53 @@
             // portCOM
             // 
             this.portCOM.FormattingEnabled = true;
-            this.portCOM.Location = new System.Drawing.Point(137, 6);
+            this.portCOM.Location = new System.Drawing.Point(183, 7);
+            this.portCOM.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.portCOM.Name = "portCOM";
-            this.portCOM.Size = new System.Drawing.Size(84, 21);
+            this.portCOM.Size = new System.Drawing.Size(111, 24);
             this.portCOM.TabIndex = 0;
+            this.portCOM.SelectedIndexChanged += new System.EventHandler(this.portCOM_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(16, 11);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 13);
+            this.label1.Size = new System.Drawing.Size(158, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Puerto COM de Arduino";
             // 
             // baudRate
             // 
             this.baudRate.FormattingEnabled = true;
-            this.baudRate.Location = new System.Drawing.Point(137, 33);
+            this.baudRate.Location = new System.Drawing.Point(183, 41);
+            this.baudRate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.baudRate.Name = "baudRate";
-            this.baudRate.Size = new System.Drawing.Size(84, 21);
+            this.baudRate.Size = new System.Drawing.Size(111, 24);
             this.baudRate.TabIndex = 2;
             this.baudRate.SelectedIndexChanged += new System.EventHandler(this.baudRate_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(73, 36);
+            this.label2.Location = new System.Drawing.Point(97, 44);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.Size = new System.Drawing.Size(75, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Baud Rate";
             // 
             // ArduinoConfiguration
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 327);
+            this.ClientSize = new System.Drawing.Size(312, 78);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.baudRate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.portCOM);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ArduinoConfiguration";
             this.Text = "ArduinoConfiguration";
             this.Load += new System.EventHandler(this.ArduinoConfiguration_Load);

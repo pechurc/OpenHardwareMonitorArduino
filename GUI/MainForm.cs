@@ -383,6 +383,8 @@ namespace OpenHardwareMonitor.GUI {
     private void ArduinoReportSensors_Changed(object sender, EventArgs e) {
       if (arduinoReportSensors.Value) {
         arduinoReporter.Open();
+      } else {
+        arduinoReporter.Close();
       }
     }
 

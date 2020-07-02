@@ -57,12 +57,16 @@ namespace OpenHardwareMonitor.Utilities {
       set { baudRate = value; }
     }
 
+    public void Close() {
+      if (serialPort != null && serialPort.IsOpen) {
+        serialPort.Close();
+      }
+    }
     public void Open() {
-      IList<ISensor> list = new List<ISensor>();
-      SensorVisitor visitor = new SensorVisitor(sensor => {
-        list.Add(sensor);
-      });
-      visitor.VisitComputer(computer);
+
+      if (serialPort == null) {
+        createSerialPort();
+      }
 
       IList<IHardware> hardwares = this.computer.Hardware;
 
@@ -88,6 +92,8 @@ namespace OpenHardwareMonitor.Utilities {
             break;
         }
       }
+
+      serialPort.Open();
     }
     public TimeSpan LoggingInterval { get; set; }
 
@@ -98,7 +104,7 @@ namespace OpenHardwareMonitor.Utilities {
         return;
 
       Console.WriteLine(cpuTemperature.Value);
-
+      serialPort.WriteLine(cpuTemperature.Value.ToString());
       lastLoggedTime = now;
     }
 

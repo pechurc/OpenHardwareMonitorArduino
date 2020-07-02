@@ -50,11 +50,15 @@ namespace OpenHardwareMonitor.GUI {
         portCOM.Items.Add(port);
       }
 
+      portCOM.SelectedItem = this.parent.ArduinoReporter.PortName;
     }
 
     private void baudRate_SelectedIndexChanged(object sender, EventArgs e) {
-
+      this.parent.ArduinoReporter.BaudRate = (int) baudRate.SelectedItem;
     }
 
+    private void portCOM_SelectedIndexChanged(object sender, EventArgs e) {
+      this.parent.ArduinoReporter.PortName = (string) portCOM.SelectedItem;
+    }
   }
 }
