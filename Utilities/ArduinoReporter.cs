@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -25,12 +26,8 @@ namespace OpenHardwareMonitor.Utilities {
     private ISensor gpuTemperature;
     private DateTime lastLoggedTime = DateTime.MinValue;
 
-    public ArduinoReporter(IComputer computer) {
+    public ArduinoReporter(IComputer computer, string portName, int baudRate) {
       this.computer = computer;
-    }
-
-    public ArduinoReporter(string portName, int baudRate) {
-
       this.portName = portName;
       this.baudRate = baudRate;
     }
@@ -73,7 +70,7 @@ namespace OpenHardwareMonitor.Utilities {
       foreach(IHardware hardware in hardwares) {
         switch(hardware.HardwareType) {
           case HardwareType.CPU: {
-              cpuTemperature = hardware.Sensors.First(x => x.Name == "CPU Package");
+              cpuTemperature = hardware.Sensors.First(x => x.SensorType == SensorType.Temperature & x.Name == "CPU Package");
               cpuLoad = hardware.Sensors.First(x => x.Name == "CPU Total");
               break;
             }
@@ -84,7 +81,7 @@ namespace OpenHardwareMonitor.Utilities {
               break;
             }
           case HardwareType.GpuNvidia: {
-              gpuLoad = hardware.Sensors.First(x => x.Name == "GPU Core");
+              gpuLoad = hardware.Sensors.First(x => x.SensorType == SensorType.Load & x.Name == "GPU Core");
               gpuTemperature = hardware.Sensors.First(x => x.SensorType == SensorType.Temperature);
               break;
             }
@@ -103,9 +100,24 @@ namespace OpenHardwareMonitor.Utilities {
       if (lastLoggedTime + LoggingInterval - new TimeSpan(5000000) > now)
         return;
 
-      Console.WriteLine(cpuTemperature.Value);
-      serialPort.WriteLine(cpuTemperature.Value.ToString());
+      string tmp = "";
+
+      tmp += string.Format("{0,2}" + (","), (int) cpuTemperature.Value);
+      tmp += string.Format("{0,3}" + (","), (int) cpuLoad.Value);
+      tmp += string.Format("{0,2}" + (","), (int) gpuTemperature.Value);
+      tmp += string.Format("{0,3}" + (","), (int) gpuLoad.Value);
+      tmp += string.Format("{0,2}" + (","), Decimal.Round((decimal) ramFree.Value, 1));
+      tmp += string.Format("{0,2}" + (","), Decimal.Round((decimal) ramUsed.Value, 1));
+      tmp += string.Format("{0,2}" + (","), (int) ramLoad.Value);
+      tmp += "\n";
+
+      write(Encoding.ASCII.GetBytes(tmp));
+     
       lastLoggedTime = now;
+    }
+
+    private void write(Byte[] data) {
+      serialPort.Write(data, 0, data.Length);
     }
 
   }

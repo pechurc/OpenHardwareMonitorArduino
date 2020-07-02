@@ -165,7 +165,7 @@ namespace OpenHardwareMonitor.GUI {
 
       logger = new Logger(computer);
 
-      arduinoReporter = new ArduinoReporter(computer);
+      arduinoReporter = new ArduinoReporter(computer, this.settings.GetValue("portName", "COM4"), this.settings.GetValue("baudRate", 9600));
 
       plotColorPalette = new Color[13];
       plotColorPalette[0] = Color.Blue;
