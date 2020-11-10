@@ -382,7 +382,12 @@ namespace OpenHardwareMonitor.GUI {
 
     private void ArduinoReportSensors_Changed(object sender, EventArgs e) {
       if (arduinoReportSensors.Value) {
-        arduinoReporter.Open();
+        try {
+          arduinoReporter.Open();
+        } catch (Exception ex) {
+          Console.WriteLine(ex.Message);
+          arduinoReportSensors.Value = false;
+        }
       } else {
         arduinoReporter.Close();
       }
@@ -651,6 +656,11 @@ namespace OpenHardwareMonitor.GUI {
 
       if (server != null) {
         this.settings.SetValue("listenerPort", server.ListenerPort);
+      }
+
+      if (arduinoReporter != null) {
+        this.settings.SetValue("portName", arduinoReporter.PortName);
+        this.settings.SetValue("baudRate", arduinoReporter.BaudRate);
       }
 
       string fileName = Path.ChangeExtension(

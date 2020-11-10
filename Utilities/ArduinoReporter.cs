@@ -70,7 +70,7 @@ namespace OpenHardwareMonitor.Utilities {
       foreach(IHardware hardware in hardwares) {
         switch(hardware.HardwareType) {
           case HardwareType.CPU: {
-              cpuTemperature = hardware.Sensors.First(x => x.SensorType == SensorType.Temperature & x.Name == "CPU Package");
+              cpuTemperature = hardware.Sensors.First(x => x.Name == "CPU Package");
               cpuLoad = hardware.Sensors.First(x => x.Name == "CPU Total");
               break;
             }
@@ -80,7 +80,8 @@ namespace OpenHardwareMonitor.Utilities {
               ramFree = hardware.Sensors.First(x => x.Name == "Available Memory");
               break;
             }
-          case HardwareType.GpuNvidia: {
+          case HardwareType.GpuNvidia:
+          case HardwareType.GpuAti: {
               gpuLoad = hardware.Sensors.First(x => x.SensorType == SensorType.Load & x.Name == "GPU Core");
               gpuTemperature = hardware.Sensors.First(x => x.SensorType == SensorType.Temperature);
               break;
